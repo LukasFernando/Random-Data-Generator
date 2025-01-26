@@ -3,11 +3,11 @@
         "columns": [
             {
                 "name": "name",
-                "type": "string"
+                "type": "name"
             },
             {
                 "name": "slogan",
-                "type": "string"
+                "type": "word"
             }
         ],
         "num-rows": 2
@@ -15,12 +15,16 @@
     "product": {
         "columns": [
             {
+                "name": "company_id",
+                "type": "foreign-key: company"
+            },
+            {
                 "name": "name",
-                "type": "string"
+                "type": "word"
             },
             {
                 "name": "category",
-                "type": "string"
+                "type": "word"
             },
             {
                 "name": "value",
