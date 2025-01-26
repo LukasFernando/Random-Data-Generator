@@ -1,0 +1,32 @@
+{
+    "company": {
+        "columns": [
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "slogan",
+                "type": "string"
+            }
+        ],
+        "num-rows": 2
+    },
+    "product": {
+        "columns": [
+            {
+                "name": "name",
+                "type": "string"
+            },
+            {
+                "name": "category",
+                "type": "string"
+            },
+            {
+                "name": "value",
+                "type": "double"
+            }
+        ],
+        "num-rows": 100
+    }
+}
