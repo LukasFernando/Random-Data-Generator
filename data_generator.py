@@ -40,12 +40,8 @@ class DataGenerator:
             print(f"Loading the configuration file. File name: {path}")
             with open(path) as file:
                 return json.load(file)
-        except FileNotFoundError:
-            print(f'Arquivo não encontrado: {path}')
-        except json.JSONDecodeError as e:
-            print(f'Erro ao decodificar o JSON: {e}')
         except Exception as e:
-            print(f'Erro: {e}')
+            raise Exception(e)
 
     def __get_fake_value(self, type:str):
         if type.startswith('foreign-key'):
@@ -67,7 +63,7 @@ class DataGenerator:
 
     def __to_excel(self):
         print("Saving to Excel...")
-        file_name = os.getenv('EXCEL_EXPORT_FILE')
+        file_name = os.getenv('OUTPUT_EXCEL_FILE')
         with pd.ExcelWriter(file_name, engine='openpyxl') as writer:
             for table_name in self.data.keys():
                 df = self.data[table_name]
