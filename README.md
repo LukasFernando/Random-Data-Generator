@@ -15,7 +15,7 @@ project
 └── README.md
 ```
 
-## Steps to use this project
+## Steps to use this Project
 
 ### 1. Clone this repository
 ```bash
