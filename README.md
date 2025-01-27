@@ -21,17 +21,7 @@ project
 git clone <repository-url>
 ```
 
-### 2. Create a virtual environment
-```bash
-python -m venv .venv
-```
-
-### 3. Install Python dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Create environment variables (.env file)
+### 2. Create environment variables (.env file)
 ```env
 # Database
 DATABASE_HOST=localhost
@@ -118,6 +108,27 @@ IF_TABLE_EXISTS=append
 ```
 
 If you are unfamiliar with the Faker library, it is recommended to explore its documentation to understand the available data types.
+
+### 3. Create and activate the virtual environment
+#### Windows:
+```bash
+python -m venv .venv
+```
+```bash
+.venv/Scripts/activate
+```
+#### Linux (or macOS):
+```bash
+python3 -m venv .venv
+```
+```bash
+source .venv/bin/activate
+```
+
+### 4. Install Python dependencies
+```bash
+pip install -r requirements.txt
+```
 
 ### 5. Run the project
 ```bash
