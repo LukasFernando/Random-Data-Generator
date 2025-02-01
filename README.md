@@ -4,6 +4,7 @@
 
 ```
 project
+│
 ├── .env
 ├── .gitignore
 ├── data_generation_config.json
