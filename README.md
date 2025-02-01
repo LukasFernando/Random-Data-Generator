@@ -59,8 +59,8 @@ IF_TABLE_EXISTS=append
     "table_name": {
         "columns": [
             {
-                "name": "column_name",
-                "type": "column_type (Note: This refers to data types provided by the Faker library, not SQL types like string, date, etc.)"
+                "name": "column name",
+                "type": "column type (Note: This refers to data types provided by the Faker library, not SQL types like string, date, etc.)"
             }
         ],
         "num-rows": "number of rows to generate for this table"
