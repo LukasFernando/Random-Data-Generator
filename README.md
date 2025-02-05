@@ -133,28 +133,28 @@ IF_TABLE_EXISTS=append
     }
 }
 ```
-Faker Library Data Types:
-- name: Generates a random name.
-- word: Generates a random word.
-- words: Generates multiple random words.
-- email: Generates a random email address.
-- date: Generates a random date from this year (date_this_year).
+#### Faker Library Data Types:
+- **name:** Generates a random name.
+- **word:** Generates a random word.
+- **words:** Generates multiple random words.
+- **email:** Generates a random email address.
+- **date:** Generates a random date from this year (date_this_year).
 
-Custom Data Types:
-- foreign-key: Generates a foreign key, which will be a random number within the number of rows in the referenced table. Used when the table is linked to another.
-- integer: Generates a random integer within a range defined by the min and max parameters.
-- double: Generates a random floating-point number within the min and max range, with the possibility to round to a specific number of decimal places using the round parameter.
-- enum: Generates a random value chosen from the values provided in the enum list.
+#### Custom Data Types:
+- **foreign-key:** Generates a foreign key, which will be a random number within the number of rows in the referenced table. Used when the table is linked to another.
+- **integer:** Generates a random integer within a range defined by the min and max parameters.
+- **double:** Generates a random floating-point number within the min and max range, with the possibility to round to a specific number of decimal places using the round parameter.
+- **enum:** Generates a random value chosen from the values provided in the enum list.
 
-Transformation Options:
+#### Transformation Options:
 These options allow you to modify the generated values:
-- unique (boolean): Ensures that the generated value is unique within the table. This is available for string, number, email, and other types.
-- upper (boolean): Converts the value to uppercase.
-- lower (boolean): Converts the value to lowercase.
-- title (boolean): Converts the value to title case (first letter capitalized).
-- min (integer): Defines the minimum value for generating integers or floating-point numbers.
-- max (integer): Defines the maximum value for generating integers or floating-point numbers.
-- round (integer): Sets the number of decimal places to round generated double values.
+- **unique (boolean):** Ensures that the generated value is unique within the table. This is available for string, number, email, and other types.
+- **upper (boolean):** Converts the value to uppercase.
+- **lower (boolean):** Converts the value to lowercase.
+- **title (boolean):** Converts the value to title case (first letter capitalized).
+- **min (integer):** Defines the minimum value for generating integers or floating-point numbers.
+- **max (integer):** Defines the maximum value for generating integers or floating-point numbers.
+- **round (integer):** Sets the number of decimal places to round generated double values.
 
 
 ### 3. Create and activate the virtual environment
