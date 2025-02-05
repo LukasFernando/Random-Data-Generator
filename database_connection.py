@@ -9,7 +9,6 @@ class DatabaseConnection:
 
     def connect(self):
         try:
-            print('')
             host = os.getenv('DATABASE_HOST')
             user = os.getenv('DATABASE_USER')
             password = os.getenv('DATABASE_PASSWORD')

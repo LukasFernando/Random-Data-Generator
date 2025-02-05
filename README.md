@@ -75,7 +75,7 @@ IF_TABLE_EXISTS=append
         "columns": [
             {
                 "name": "name",
-                "type": "name"
+                "type": "word"
             },
             {
                 "name": "slogan",
@@ -84,31 +84,78 @@ IF_TABLE_EXISTS=append
         ],
         "num-rows": 2
     },
+    "dim_employee": {
+        "columns": [
+            {
+                "name": "company_id",
+                "type": "foreign-key",
+                "reference-table": "company"
+            },
+            {
+                "name": "name",
+                "type": "name",
+                "upper": true
+            },
+            {
+                "name": "status",
+                "type": "enum",
+                "enum": ["ACTIVE", "INACTIVE"]
+            }
+        ],
+        "num-rows": 5
+    },
     "product": {
         "columns": [
             {
                 "name": "company_id",
-                "type": "foreign-key: company"
+                "type": "foreign-key",
+                "reference-table": "company"
             },
             {
                 "name": "name",
-                "type": "word"
+                "type": "word",
+                "upper": true
             },
             {
                 "name": "category",
-                "type": "word"
+                "type": "enum",
+                "enum": ["TECHNOLOGY", "HEALTH", "EDUCATION", "ENTERTAINMENT", "SPORTS"]
             },
             {
                 "name": "value",
-                "type": "double"
+                "type": "double",
+                "min": 10, 
+                "max": 1000, 
+                "round": 2 
             }
         ],
         "num-rows": 100
     }
 }
 ```
+Faker Library Data Types:
+- name: Generates a random name.
+- word: Generates a random word.
+- words: Generates multiple random words.
+- email: Generates a random email address.
+- date: Generates a random date from this year (date_this_year).
 
-If you are unfamiliar with the Faker library, it is recommended to explore its documentation to understand the available data types.
+Custom Data Types:
+- foreign-key: Generates a foreign key, which will be a random number within the number of rows in the referenced table. Used when the table is linked to another.
+- integer: Generates a random integer within a range defined by the min and max parameters.
+- double: Generates a random floating-point number within the min and max range, with the possibility to round to a specific number of decimal places using the round parameter.
+- enum: Generates a random value chosen from the values provided in the enum list.
+
+Transformation Options:
+These options allow you to modify the generated values:
+- unique (boolean): Ensures that the generated value is unique within the table. This is available for string, number, email, and other types.
+- upper (boolean): Converts the value to uppercase.
+- lower (boolean): Converts the value to lowercase.
+- title (boolean): Converts the value to title case (first letter capitalized).
+- min (integer): Defines the minimum value for generating integers or floating-point numbers.
+- max (integer): Defines the maximum value for generating integers or floating-point numbers.
+- round (integer): Sets the number of decimal places to round generated double values.
+
 
 ### 3. Create and activate the virtual environment
 #### Windows:
@@ -141,6 +188,6 @@ python ./main.py
 ### Next Steps
 - Customize the `data_generation_config.json` file as per your data generation needs.
 - Explore the Faker library documentation to better understand how it works.
-- If you added new data types in `data_generation_config.json`, you will need to modify the code where the conditions for each data type are handled. This part of the code is in the `data_generator.py` file, in the `__get_fake_value` function.
+- If you added new data types in `data_generation_config.json`, you will need to modify the code where the conditions for each data type are handled. This part of the code is in the `data_generator.py` file, in the `__generate_fake_value` and `__apply_column_transformations` function.
 
 For further clarification, refer to the comments and examples provided in this document.
