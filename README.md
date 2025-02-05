@@ -140,6 +140,8 @@ IF_TABLE_EXISTS=append
 - **email:** Generates a random email address.
 - **date:** Generates a random date from this year (date_this_year).
 
+> **Note:** If you are unfamiliar with the Faker library, it is recommended to explore its documentation to understand the available data types.
+
 #### Custom Data Types:
 - **foreign-key:** Generates a foreign key, which will be a random number within the number of rows in the referenced table. Used when the table is linked to another.
 - **integer:** Generates a random integer within a range defined by the min and max parameters.
