@@ -3,7 +3,7 @@
         "columns": [
             {
                 "name": "name",
-                "type": "name"
+                "type": "word"
             },
             {
                 "name": "slogan",
@@ -12,23 +12,49 @@
         ],
         "num-rows": 2
     },
+    "dim_employee": {
+        "columns": [
+            {
+                "name": "company_id",
+                "type": "foreign-key",
+                "reference-table": "company"
+            },
+            {
+                "name": "name",
+                "type": "name",
+                "upper": true
+            },
+            {
+                "name": "status",
+                "type": "enum",
+                "enum": ["ACTIVE", "INACTIVE"]
+            }
+        ],
+        "num-rows": 5
+    },
     "product": {
         "columns": [
             {
                 "name": "company_id",
-                "type": "foreign-key: company"
+                "type": "foreign-key",
+                "reference-table": "company"
             },
             {
                 "name": "name",
-                "type": "word"
+                "type": "word",
+                "upper": true
             },
             {
                 "name": "category",
-                "type": "word"
+                "type": "enum",
+                "enum": ["TECHNOLOGY", "HEALTH", "EDUCATION", "ENTERTAINMENT", "SPORTS"]
             },
             {
                 "name": "value",
-                "type": "double"
+                "type": "double",
+                "min": 10, 
+                "max": 1000, 
+                "round": 2 
             }
         ],
         "num-rows": 100

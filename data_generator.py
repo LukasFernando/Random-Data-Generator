@@ -13,16 +13,14 @@ class DataGenerator:
         self.to_excel = eval(os.getenv('TO_EXCEL'))
         self.to_database = eval(os.getenv('TO_DATABASE'))
         self.data = {}
-        self.a = True
 
     def generate_data(self):
-        for table_name in self.data_config.keys():
-            entity_info = self.data_config[table_name]
+        for table_name, entity_info in self.data_config.items():
             data_temp = {column_info['name']: [] for column_info in entity_info['columns']}
             
-            for _ in range(entity_info['num-rows']):
+            for row_count in range(1, entity_info['num-rows']+1):
                 for column_info in entity_info['columns']:
-                    data_temp[column_info['name']].append(self.__get_fake_value(column_info['type']))
+                    data_temp[column_info['name']].append(self.__generate_fake_value(column_info, row_count))
 
             self.data[table_name] = pd.DataFrame(data_temp)
 
@@ -43,43 +41,103 @@ class DataGenerator:
         except Exception as e:
             raise Exception(e)
 
-    def __get_fake_value(self, type:str):
-        if type.startswith('foreign-key'):
-            return random.randint(1, self.data_config[type.split(':')[1].strip()]['num-rows'])
+    def __generate_fake_value(self, column_info, row_count):
+        """
+        # Generating a fake value based on column type (e.g., name, email, integer)
+        """
+        min_num = column_info.get('min', 0)
+        max_num = column_info.get('max', 1000000000)
+        round_num = column_info.get('round', 5)
+        type = column_info['type']
+        generated_type = 'string'
+        value = None
+    
+        # Foreign key type
+        if type == 'foreign-key':
+            generated_type = 'foreign-key'
+            value = random.randint(1, self.data_config[column_info['reference-table']]['num-rows'])
+        # String type
         elif type == 'name':
-            return self.fake.name()
+            value = self.fake.name()
+        elif type == 'username':
+            value = self.fake.name().replace(' ', '.').strip()
         elif type == 'word':
-            return self.fake.word()
+            value = self.fake.word()
         elif type == 'words':
-            return self.fake.words()
+            value = self.fake.words()
+        # Email type
+        elif type == 'email':
+            generated_type = 'email'
+            value = self.fake.email()
+        # Date type
         elif type == 'date':
-            return self.fake.date_this_year()
-        elif type == 'phone_number':
-            return self.fake.phone_number()
+            generated_type = 'date'
+            value = self.fake.date_this_year()
+        # Enum type
+        elif type == 'enum':
+            value = random.choice(column_info['enum'])
+        # Numeric type
         elif type == 'integer':
-            return random.randint(0, 1000000000)
+            generated_type = 'numeric'
+            value = random.randint(min_num, max_num)
         elif type == 'double':
-            return random.uniform(0, 1000000000)
+            generated_type = 'numeric'
+            value = round(random.uniform(min_num, max_num), round_num)
+        
+        return self.__apply_column_transformations(value, generated_type, column_info, row_count)
+
+    def __apply_column_transformations(self, current_value, generated_type, column_info, row_count):
+        """
+        Transforming the value based on the specified options.
+        """
+        unique = column_info.get('unique', False)
+
+        # Apply 'unique' transformations based on value type (string, email, numeric)
+        if unique and generated_type == 'foreign-key':
+            current_value = row_count
+        elif unique and generated_type == 'string':
+            current_value = current_value + str(row_count)
+        elif unique and generated_type == 'email':
+            email_split = current_value.split('@')
+            current_value = f'{email_split[0]}{row_count}{email_split[1]}'
+        elif unique and generated_type == 'numeric':
+            number_length = column_info.get('number-length', 9)
+            number_length = number_length if str(row_count).endswith('0') else number_length + 1
+            current_value = int(str(row_count).ljust(number_length, '0'))
+
+        # Apply unique and string case transformations (upper, lower, title)
+        if column_info.get('upper', False):
+            current_value = current_value.upper()
+        elif column_info.get('lower', False):
+            current_value = current_value.lower()
+        elif column_info.get('title', False):
+            current_value = current_value.title()
+        
+        return current_value
 
     def __to_excel(self):
+        """
+        Save the Excel
+        """
         print("Saving to Excel...")
         file_name = os.getenv('OUTPUT_EXCEL_FILE')
         with pd.ExcelWriter(file_name, engine='openpyxl') as writer:
-            for table_name in self.data.keys():
-                df = self.data[table_name]
+            for table_name, df in self.data.items():
                 df.to_excel(writer, sheet_name=table_name, index=False)
         
         print(f"Excel saved successfully! File name: {file_name}")
 
     def __to_database(self):
+        """
+        Save in database
+        """
         print("Saving to the database...")
         print("Initializing connection to the database")
         db = DatabaseConnection()
         db.connect()
         print("Database connected successfully!")
 
-        for table_name in self.data.keys():
-            df = self.data[table_name]
+        for table_name, df in self.data.items():
             df.to_sql(table_name, con=db.engine, if_exists='append', index=False)
         
         print("Tables saved to the database successfully!")
