@@ -12,7 +12,7 @@
         ],
         "num-rows": 2
     },
-    "dim_employee": {
+    "employee": {
         "columns": [
             {
                 "name": "company_id",

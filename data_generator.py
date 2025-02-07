@@ -101,9 +101,9 @@ class DataGenerator:
             email_split = current_value.split('@')
             current_value = f'{email_split[0]}{row_count}{email_split[1]}'
         elif unique and generated_type == 'numeric':
-            number_length = column_info.get('number-length', 9)
-            number_length = number_length if str(row_count).endswith('0') else number_length + 1
-            current_value = int(str(row_count).ljust(number_length, '0'))
+            number_length = column_info.get('number-length', 10)
+            str_row_count = str(row_count)
+            current_value = int(str_row_count.ljust(number_length - len(str_row_count), '0') + str_row_count)
 
         # Apply unique and string case transformations (upper, lower, title)
         if column_info.get('upper', False):
